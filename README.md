@@ -1,0 +1,7 @@
+# Machine Learning Collection Development Project
+
+This project uses AWS machine learning to predict which books your library should by. Using this project will require you to have an AWS account, aws-cli installed and configured, and a Google Books API key.
+
+This project is built in Python 3. It is highly encourged to use a virtualenv.
+
+`mkvirtualenv ml-collection-development`
