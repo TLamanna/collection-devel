@@ -4,4 +4,7 @@ This project uses AWS machine learning to predict how well books will circulate.
 
 This project is built in Python 3. It is highly encourged to use a virtualenv.
 
-`mkvirtualenv ml-collection-development`
+`# mkvirtualenv ML-collection-development`
+
+`# pip3 install -r requirements.txt`
+
