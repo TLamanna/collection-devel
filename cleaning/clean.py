@@ -3,6 +3,7 @@ import argparse
 import sys
 import os
 import re
+import isbnlib
 
 parser = argparse.ArgumentParser()
 
@@ -35,21 +36,12 @@ def parse_csv(input_file):
     reader = csv.reader(csvfile, delimiter=',', quotechar='"')
     x = 0
     for row in reader:
-      if row[2]:
-        pattern = re.compile('978\d{10}')
-        isbn_13 = pattern.search(row[2])
-        if isbn_13:
-          isbn_final = isbn_13.group()
-          books.append([x,row[0],row[1],isbn_final, row[3]])
-        else:
-          pattern = re.compile('\d{10}')
-          isbn_10 = pattern.match(row[2])
-          if isbn_10:
-            isbn_final = convert_10_to_13(isbn_10.group())
-            books.append([x,row[0],row[1],isbn_final, row[3]])
-          else:
-            problems.append([row[0],row[1],row[2], row[3]])
-        x += 1
+      if isbnlib.get_isbnlike(row[2]):
+        isbn_final = isbnlib.EAN13(isbnlib.get_isbnlike(row[2])[0])
+        books.append([x,row[0],row[1],isbn_final, row[3]])
+      else:
+        problems.append([row[0],row[1],row[2], row[3]])
+      x += 1
     return books
     
 def write_cleaned_data(cleaned_data):
@@ -77,24 +69,6 @@ def write_problems(problems):
   csvoutputfile.close()
 
 
-
-def check_digit_13(isbn):
-    assert len(isbn) == 12
-    sum = 0
-    for i in range(len(isbn)):
-        c = int(isbn[i])
-        if i % 2: w = 3
-        else: w = 1
-        sum += w * c
-    r = 10 - (sum % 10)
-    if r == 10: return '0'
-    else: return str(r)
-
-def convert_10_to_13(isbn):
-    assert len(isbn) == 10
-    prefix = '978' + isbn[:-1]
-    check = check_digit_13(prefix)
-    return prefix + check
 
 
 if __name__=="__main__":
