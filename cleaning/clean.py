@@ -32,7 +32,7 @@ def main():
 
 def parse_csv(input_file):
 
-  with open(os.path.abspath(input_file), newline='\n') as csvfile:
+  with open(os.path.abspath(input_file), encoding="utf-8",  newline='\n') as csvfile:
     reader = csv.reader(csvfile, delimiter=',', quotechar='"')
     x = 0
     for row in reader:
@@ -49,7 +49,7 @@ def write_cleaned_data(cleaned_data):
     output_file = os.path.abspath(args.output)
   else:
     output_file = os.path.dirname(os.path.abspath(args.file)) + '/cleaned-data-' + os.path.basename(args.file)
-  with open(output_file, mode='w', newline='\n') as csvoutputfile:
+  with open(output_file, encoding="utf-8", mode='w', newline='\n') as csvoutputfile:
     writer = csv.writer(csvoutputfile)
     writer.writerow(['id','title','author','isbn','annual circs'])
     for row in cleaned_data:
@@ -61,7 +61,7 @@ def write_problems(problems):
     output_file = os.path.abspath(args.problems)
   else:
     output_file = os.path.dirname(os.path.abspath(args.file)) + '/problem-children-' + os.path.basename(args.file)
-  with open(output_file, mode='w', newline='\n') as csvoutputfile:
+  with open(output_file, encoding="utf-8", mode='w', newline='\n') as csvoutputfile:
     writer = csv.writer(csvoutputfile)
     writer.writerow(['title','author','isbn','annual circs'])
     for row in problems:
